@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { createCourseAction } from "../actions";
 import { Button } from "@/shared/ui/button";
+import { cn } from "@/shared/ui/utils";
 
 const createCourseFormSchema = z.object({
   name: z.string(),
@@ -24,7 +25,9 @@ const createCourseFormSchema = z.object({
 
 export function CreateCourseForm({
   revalidatePagePath,
+  className,
 }: {
+  className: string;
   revalidatePagePath: string;
 }) {
   const [isCreateTransition, startCreateTransition] = useTransition();
@@ -44,7 +47,7 @@ export function CreateCourseForm({
             createCourseAction(data, revalidatePagePath);
           });
         })}
-        className="space-y-8"
+        className={cn(className, "space-y-8")}
       >
         <FormField
           control={form.control}
