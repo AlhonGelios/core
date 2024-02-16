@@ -17,7 +17,11 @@ test("create delete course list", async ({ page }) => {
     page.getByText("Test courseTest descriptionУдалить"),
   ).toBeVisible();
 
-  await page.getByRole("button", { name: "Удалить" }).click();
+  await page
+    .locator("div")
+    .filter({ hasText: /^Test courseTest descriptionУдалить$/ })
+    .getByRole("button")
+    .click();
 
   await expect(
     page.getByText("Test courseTest descriptionУдалить"),
