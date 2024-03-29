@@ -11,7 +11,7 @@ import {
 import { LogOut, User } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import Link from "next/link";
-import { useAppSession } from "@/entities/user/_vm/use-app-session";
+import { useAppSession } from "@/entities/user/session";
 import { Skeleton } from "@/shared/ui/skeleton";
 import { useSignOut } from "@/features/auth/use-sign-out";
 import { SignInButton } from "@/features/auth/sign-in-button";
@@ -52,7 +52,7 @@ export function Profile() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href={`/profile/1`}>
+            <Link href={`/profile/${user?.id}`}>
               <User className="mr-2 h-4 w-4" />
               <span>Профиль</span>
             </Link>
