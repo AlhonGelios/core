@@ -48,6 +48,7 @@ class FileStorage {
         Key: `${Date.now().toString()}-${file.name}`,
         Body: file,
       },
+      tags: options?.tags,
       queueSize: 4, // optional concurrency configuration
       partSize: 1024 * 1024 * 5, // optional size of each part, in bytes, at least 5MB
       leavePartsOnError: false, // optional manually handle dropped parts
