@@ -13,6 +13,7 @@ services:
       - db-data:/var/lib/postgressql/data
   minio:
     image: minio/minio:latest
+    restart: always
     entrypoint: sh
     ports:
       - "9000:9000"

@@ -36,9 +36,13 @@ yarn-error.log*
 next-env.d.ts
 .env
 /test-results/
-/playwright-report/
 /blob-report/
-/playwright/.cache/
+
 
 # Sentry Config File
 .sentryclirc
+
+# Playwright
+/playwright/.auth/
+/playwright-report/
+/playwright/.cache/
