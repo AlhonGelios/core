@@ -38,9 +38,11 @@ next-env.d.ts
 /test-results/
 /blob-report/
 
+
 # Sentry Config File
 .sentryclirc
 
 # Playwright
 /playwright/.auth/
 /playwright-report/
+/playwright/.cache/
