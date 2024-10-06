@@ -10,10 +10,11 @@
     "lint:types": "tsc --noEmit",
     "test": "jest",
     "prettier": "prettier -w .",
-    "test:e2e": "npx prisma migrate reset --force && playwright test"
+    "test:e2e": "npx prisma migrate reset --force && playwright test",
+    "upload-content-schemas": "ts-node --project tsconfig.script.json ./scripts/upload-content-schema https://raw.githubusercontent.com/AlhonGelios/content-schema/refs/heads/main/schemas/ ./src/shared/api/content/schemas"
   },
   "prisma": {
-    "seed": "ts-node --project tsconfig.migrate.json prisma/seed.ts"
+    "seed": "ts-node --project tsconfig.script.json prisma/seed.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.4.0",
