@@ -9,6 +9,7 @@ import lessonSchema from "./_schemas/lesson.schema.json";
 import { Manifest } from "./_schemas/manifest.schema";
 import manifestSchema from "./_schemas/manifest.schema.json";
 import { loggedMethod } from "@/shared/lib/logger";
+import { pick } from "lodash-es";
 
 interface Deps {
   cacheStrategy: CacheStrategy;
@@ -25,34 +26,56 @@ export class ContentApi {
     private d: Deps,
   ) {}
 
-  @loggedMethod
   async fetchManifest() {
-    const fetchData = async () => {
-      const text = await this.d.fileFetcher.fetchText(this.getManifestUrl());
-      return await this.d.contentParser.parse<Manifest>(text, manifestSchema);
-    };
-    return this.d.cacheStrategy.fetch(["manifest"], fetchData);
+    return this.d.cacheStrategy.fetch(["manifest"], () =>
+      this.fetchManifestQuery(),
+    );
+  }
+  @loggedMethod({
+    logRes: (res: Manifest) => res,
+  })
+  private async fetchManifestQuery() {
+    const text = await this.d.fileFetcher.fetchText(this.getManifestUrl());
+    return await this.d.contentParser.parse<Manifest>(text, manifestSchema);
   }
 
   async fetchCourse(slug: CourseSlug) {
-    const fetchData = async () => {
-      const text = await this.d.fileFetcher.fetchText(this.getCoursetUrl(slug));
-      return await this.d.contentParser.parse<Course>(text, courseSchema);
-    };
-    return this.d.cacheStrategy.fetch(["course", slug], fetchData);
+    return this.d.cacheStrategy.fetch(["course", slug], () =>
+      this.fetchCourseQuery(slug),
+    );
+  }
+
+  @loggedMethod({
+    logArgs: (slug: CourseSlug) => ({ slug }),
+    logRes: (res: Course, slug) =>
+      pick({ ...res, slug }, ["id", "title", "slug"]),
+  })
+  private async fetchCourseQuery(slug: string) {
+    const text = await this.d.fileFetcher.fetchText(this.getCoursetUrl(slug));
+    return await this.d.contentParser.parse<Course>(text, courseSchema);
   }
 
   async fetchLession(courseSlug: CourseSlug, lessonSlug: LessonSlug) {
-    const fetchData = async () => {
-      const text = await this.d.fileFetcher.fetchText(
-        this.getLessontUrl(courseSlug, lessonSlug),
-      );
-      return await this.d.contentParser.parse<Lesson>(text, lessonSchema);
-    };
-    return this.d.cacheStrategy.fetch(
-      ["lesson", courseSlug, lessonSlug],
-      fetchData,
+    return this.d.cacheStrategy.fetch(["lesson", courseSlug, lessonSlug], () =>
+      this.fetchLessonQuery(courseSlug, lessonSlug),
     );
+  }
+
+  @loggedMethod({
+    logArgs: (courseSlug: CourseSlug, lessonSlug: LessonSlug) => ({
+      courseSlug,
+      lessonSlug,
+    }),
+    logRes: (res: Lesson) => pick(res, ["id", "title", "slug"]),
+  })
+  private async fetchLessonQuery(
+    courseSlug: CourseSlug,
+    lessonSlug: LessonSlug,
+  ) {
+    const text = await this.d.fileFetcher.fetchText(
+      this.getLessontUrl(courseSlug, lessonSlug),
+    );
+    return await this.d.contentParser.parse<Lesson>(text, lessonSchema);
   }
 
   private getManifestUrl() {
