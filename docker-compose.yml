@@ -13,6 +13,7 @@ services:
       - db-data:/var/lib/postgressql/data
   dev-content-nginx:
     image: nginx:latest
+    restart: always
     ports:
       - "4000:80"
     volumes:
