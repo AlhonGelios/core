@@ -1,9 +1,7 @@
 import { coursesRepository } from "../_repositories/courses";
 
-type GetCoursesList = {};
-
 export class GetCoursesListService {
-  async exec(data: GetCoursesList) {
+  async exec() {
     return coursesRepository.getCoursesList();
   }
 }
