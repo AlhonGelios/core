@@ -1,9 +1,9 @@
 "use server";
 
 import { z } from "zod";
-import { getUserUseCase } from "../_use-cases/get-user";
-import { getAppSessionStrictServer } from "../get-app-session.server";
+import { getUserService } from "../_services/get-user";
 import { profileSchema } from "../_domain/schema";
+import { getAppSessionStrictServer } from "@/kernel/lib/next-auth/server";
 
 const propsSchema = z.object({
   userId: z.string(),
@@ -20,7 +20,7 @@ export const getUserProfileAction = async (
 
   const session = await getAppSessionStrictServer();
 
-  const user = await getUserUseCase.exec({ session, userId });
+  const user = await getUserService.exec({ session, userId });
 
   return resultSchema.parseAsync({ profile: user });
 };

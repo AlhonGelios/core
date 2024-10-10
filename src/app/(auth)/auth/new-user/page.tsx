@@ -1,5 +1,5 @@
-import { getAppSessionServer } from "@/entities/user/get-app-session.server";
 import { UpdateProfileForm } from "@/features/update-profile/update-profile-form";
+import { getAppSessionStrictServer } from "@/kernel/lib/next-auth/server";
 import { Separator } from "@/shared/ui/separator";
 import { redirect } from "next/navigation";
 
@@ -8,7 +8,7 @@ export default async function NewUserPage({
 }: {
   searchParams: { callbackUrl?: string };
 }) {
-  const session = await getAppSessionServer();
+  const session = await getAppSessionStrictServer();
 
   if (!session) {
     return redirect("/auth/sign-in");

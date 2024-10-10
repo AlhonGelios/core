@@ -1,5 +1,6 @@
+import { UserId } from "@/kernel/domain/user";
 import { dbClient } from "@/shared/lib/db";
-import { Profile, UserId } from "../_domain/types";
+import { Profile } from "../profile";
 
 export class ProfileRepository {
   async update(userId: UserId, data: Partial<Profile>): Promise<Profile> {

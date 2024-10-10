@@ -2,8 +2,8 @@
 
 import { z } from "zod";
 import { profileSchema } from "@/entities/user/profile";
-import { getAppSessionStrictServer } from "@/entities/user/get-app-session.server";
-import { updateProfileUseCase } from "@/entities/user/profile.server";
+import { updateProfileService } from "@/entities/user/profile.server";
+import { getAppSessionStrictServer } from "@/kernel/lib/next-auth/server";
 
 const propsSchema = z.object({
   userId: z.string(),
@@ -21,7 +21,7 @@ export const updateProfileAction = async (
 
   const session = await getAppSessionStrictServer();
 
-  const user = await updateProfileUseCase.exec({ session, userId, data });
+  const user = await updateProfileService.exec({ session, userId, data });
 
   return resultSchema.parseAsync({ profile: user });
 };
