@@ -3,7 +3,7 @@ import "reflect-metadata";
 import { CoursesListController } from "@/features/courses-list/controller";
 import { createContext, sharedRouter, t } from "@/kernel/lib/trpc/server";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
-import { init } from "@/app/init";
+import { init } from "@/app/_init";
 
 const container = init();
 
