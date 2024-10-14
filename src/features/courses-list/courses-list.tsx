@@ -1,22 +1,8 @@
-import { compileMDX } from "@/shared/lib/mdx/server";
-import { coursesRepository } from "../../entities/course/_repositories/courses";
-import { CourseItem } from "./_ui/course-item";
+import { CourseListClient } from "./_ui/courses-list";
+import { coursesListServerApi } from "./controller";
 
 export async function CourseList() {
-  const coursesList = await coursesRepository.getCoursesList();
+  const coursesList = await coursesListServerApi.coursesList.get.fetch();
 
-  const compiledCourses = await Promise.all(
-    coursesList.map(async (course) => ({
-      ...course,
-      description: await compileMDX(course.description).then((r) => r.code),
-    })),
-  );
-
-  return (
-    <div className="flex flex-col gap-3">
-      {compiledCourses.map((course) => (
-        <CourseItem key={course.id} course={course} />
-      ))}
-    </div>
-  );
+  return <CourseListClient defaultList={coursesList} />;
 }
