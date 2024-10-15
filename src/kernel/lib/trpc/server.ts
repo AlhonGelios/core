@@ -3,6 +3,12 @@ import { getAppSessionServer } from "../next-auth/server";
 import { AnyRouter, initTRPC, TRPCError } from "@trpc/server";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { z, ZodTypeAny } from "zod";
+import { injectable } from "inversify";
+
+@injectable()
+export abstract class Controller {
+  abstract router: AnyRouter;
+}
 
 export const createContext = async () => {
   const session = await getAppSessionServer();

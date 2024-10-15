@@ -5,13 +5,14 @@ import React, { useState } from "react";
 import { ThemeProvider } from "@/features/theme/theme-provider";
 import { AppSessionProvider } from "@/kernel/lib/next-auth/client";
 import { ComposeChildren } from "@/shared/lib/react";
-import { httpBatchLink } from "@trpc/client";
+import { httpBatchLink, TRPCUntypedClient } from "@trpc/client";
 import { sharedApi } from "@/kernel/lib/trpc/client";
 import { publicConfig } from "@/shared/config/public";
+import { AnyRouter } from "@trpc/server";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
-  const [trpcClient] = useState(() =>
+  const [trpcClient] = useState<TRPCUntypedClient<AnyRouter>>(() =>
     sharedApi.createClient({
       links: [
         httpBatchLink({

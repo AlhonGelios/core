@@ -1,12 +1,11 @@
-import { GetCoursesListService } from "@/entities/course/course.server";
-import { CoursesListController } from "@/features/courses-list/controller";
+import { CourseEntitiModule } from "@/entities/course/server";
+import { CoursesListModule } from "@/features/courses-list/server";
 import { Container } from "inversify";
 
 export function init() {
   const container = new Container();
 
-  container.bind(CoursesListController).toSelf();
-  container.bind(GetCoursesListService).toSelf();
+  container.load(CoursesListModule, CourseEntitiModule);
 
   return container;
 }
