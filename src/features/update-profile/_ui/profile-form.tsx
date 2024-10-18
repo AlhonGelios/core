@@ -16,7 +16,7 @@ import {
 import { Input } from "@/shared/ui/input";
 import { Spinner } from "@/shared/ui/spinner";
 import { AvatarField } from "./avatar-field";
-import { Profile } from "@/entities/user/profile";
+import { Profile } from "@/entities/user/client";
 import { useUpdateProfile } from "../_vm/use-update-profile";
 import { UserId } from "@/kernel/domain/user";
 
