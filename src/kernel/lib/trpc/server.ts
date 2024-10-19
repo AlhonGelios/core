@@ -66,20 +66,22 @@ export const checkAbilityInputProcedure = <Ability, Input extends ZodTypeAny>({
   check: (abylity: Ability, input: z.infer<Input>) => boolean;
   create: (session: SharedSession) => Ability;
 }) => {
-  authorizedProcedure.input(input).use(({ ctx, next, input: params }) => {
-    const ability = create(ctx.session);
+  return authorizedProcedure
+    .input(input)
+    .use(({ ctx, next, input: params }) => {
+      const ability = create(ctx.session);
 
-    if (!check(ability, params)) {
-      throw new TRPCError({ code: "FORBIDDEN" });
-    }
+      if (!check(ability, params)) {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
 
-    return next({
-      ctx: {
-        session: ctx.session,
-        ability,
-      },
+      return next({
+        ctx: {
+          session: ctx.session,
+          ability,
+        },
+      });
     });
-  });
 };
 
 export const sharedRouter = router({});

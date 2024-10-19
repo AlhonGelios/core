@@ -15,6 +15,8 @@ export type SharedUser = {
   image?: string | null;
 };
 
+export type NewUser = Omit<SharedUser, "id">;
+
 export type SharedSession = {
   user: {
     id: UserId;

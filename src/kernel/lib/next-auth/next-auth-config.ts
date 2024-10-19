@@ -5,7 +5,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { dbClient } from "@/shared/lib/db";
 import { compact } from "lodash-es";
 import { privateConfig } from "@/shared/config/private";
-import { ROLES, SharedUser } from "@/kernel/domain/user";
+import { NewUser, ROLES, SharedUser } from "@/kernel/domain/user";
 import { createId } from "@/shared/lib/id";
 
 const prismaAdapter = PrismaAdapter(dbClient);
@@ -21,7 +21,7 @@ const emailToken = privateConfig.TEST_EMAIL_TOKEN
 export const nextAuthConfig: AuthOptions = {
   adapter: {
     ...prismaAdapter,
-    createUser: async (data) => {
+    createUser: async (data: NewUser) => {
       const adminEmails = privateConfig.ADMIN_EMAILS?.split(",") ?? [];
       const role = adminEmails.includes(data.email) ? ROLES.ADMIN : ROLES.USER;
 

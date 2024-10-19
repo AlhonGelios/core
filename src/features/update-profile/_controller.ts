@@ -20,7 +20,7 @@ const withUserIdSchema = z.object({
 export class UpdateProfileController extends Controller {
   constructor(
     private updateProfileService: UpdateProfileService,
-    private getProfileServise: GetProfileService,
+    private getProfileService: GetProfileService,
   ) {
     super();
   }
@@ -34,7 +34,7 @@ export class UpdateProfileController extends Controller {
       })
         .input(withUserIdSchema)
         .query(({ input }) => {
-          return this.getProfileServise.exec(input);
+          return this.getProfileService.exec(input);
         }),
 
       update: checkAbilityInputProcedure({
