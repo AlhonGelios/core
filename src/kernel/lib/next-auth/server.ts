@@ -1,14 +1,11 @@
-import { getServerSession } from "next-auth";
-import { nextAuthConfig } from "./next-auth-config";
-import { NeedAuthError } from "@/shared/lib/errors";
+import { ContainerModule } from "inversify";
+import { SessionService } from "./_session-service";
+import { NextAuthConfig } from "./_next-auth-config";
+export { CreateUserService } from "./_create-user-service";
 
-export const getAppSessionServer = () => getServerSession(nextAuthConfig);
+export const NextAuthModule = new ContainerModule((bind) => {
+  bind(NextAuthConfig).toSelf();
+  bind(SessionService).toSelf();
+});
 
-export const getAppSessionStrictServer = async () => {
-  const session = await getAppSessionServer();
-  if (session === null) {
-    throw new NeedAuthError();
-  }
-
-  return session;
-};
+export { NextAuthConfig, SessionService };

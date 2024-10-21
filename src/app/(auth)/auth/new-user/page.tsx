@@ -1,14 +1,16 @@
+import { server } from "@/app/server";
 import { UpdateProfileForm } from "@/features/update-profile/update-profile-form";
-import { getAppSessionStrictServer } from "@/kernel/lib/next-auth/server";
+import { SessionService } from "@/kernel/lib/next-auth/server";
 import { Separator } from "@/shared/ui/separator";
 import { redirect } from "next/navigation";
 
+const sessionService = server.get(SessionService);
 export default async function NewUserPage({
   searchParams,
 }: {
   searchParams: { callbackUrl?: string };
 }) {
-  const session = await getAppSessionStrictServer();
+  const session = await sessionService.get();
 
   if (!session) {
     return redirect("/auth/sign-in");

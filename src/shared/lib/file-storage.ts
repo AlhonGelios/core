@@ -2,7 +2,6 @@ import { S3Client, Tag } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 import cuid from "cuid";
 import { privateConfig } from "../config/private";
-import { lookup } from "mime-types";
 
 export type StoredFile = {
   id: string;
@@ -57,7 +56,7 @@ class FileStorage {
     return {
       id: cuid(),
       name: file.name,
-      type: lookup(file.name) || "",
+      type: file.type,
       path: `/storage/${bucket}/${res.Key}`,
       prefix: "/storage",
       eTag: res.ETag,

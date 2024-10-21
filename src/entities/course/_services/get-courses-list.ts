@@ -1,9 +1,10 @@
-import { coursesRepository } from "../_repositories/courses";
+import { CoursesRepository } from "../_repositories/courses";
+import { injectable } from "inversify";
 
+@injectable()
 export class GetCoursesListService {
+  constructor(private coursesRepository: CoursesRepository) {}
   async exec() {
-    return coursesRepository.getCoursesList();
+    return this.coursesRepository.getCoursesList();
   }
 }
-
-export const getCoursesListService = new GetCoursesListService();

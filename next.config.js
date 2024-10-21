@@ -1,6 +1,14 @@
-import { withSentryConfig } from "@sentry/nextjs";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        "localhost:3000",
+        "staging.geliostest.ru",
+        "geliostest.ru",
+      ],
+    },
+  },
   rewrites: () => [
     {
       source: "/storage/:path*",
@@ -9,15 +17,21 @@ const nextConfig = {
   ],
 };
 
-export default withSentryConfig(
-  nextConfig,
+module.exports = nextConfig;
+
+// Injected content via Sentry wizard below
+
+const { withSentryConfig } = require("@sentry/nextjs");
+
+module.exports = withSentryConfig(
+  module.exports,
   {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
 
     // Suppresses source map uploading logs during build
     silent: true,
-    org: "home-qyx",
+    org: "geliostest.ru",
     project: "micro-courses-core",
     dryRun: process.env.NODE_ENV === "development",
   },
