@@ -34,6 +34,7 @@
     "@trpc/client": "^11.0.0-rc.566",
     "@trpc/react-query": "^11.0.0-rc.566",
     "@trpc/server": "^11.0.0-rc.566",
+    "@xyflow/react": "^12.3.2",
     "ajv": "^8.17.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
